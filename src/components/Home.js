@@ -28,35 +28,103 @@ export class Home extends React.Component{
             name: "Foguete",
             value: 5000.0,
             imageUrl: "https://picsum.photos/202/202",
-        }
+        },
 
-        ]
+        {
+            id: 3,
+            name: "Montanha",
+            value: 200.0,
+            imageUrl: "https://picsum.photos/203/203",
+        },
+
+        {
+            id: 4,
+            name: "Casa",
+            value: 50.0,
+            imageUrl: "https://picsum.photos/204/204",
+        }
+        ],
+        ordenado: ''
+    }
+
+    onChangeOrdenado = (event) => {
+        this.setState({ordenado: event.target.value})
+    }
+
+    adicionarProduto = (produto) => {
+        this.props.onChangeCarrinho(produto)
     }
 
     render(){
 
-        const produtos = this.state.produtos.map((produto) => {
-            return<DivArrayProdutos key={produto.id}>
-                <img src={produto.imageUrl}/>
-                <spam>{produto.name}</spam>
-                <spam>R$ {produto.value}</spam>
-                <button>Adicionar ao carrinho</button>
-            </DivArrayProdutos>
+        // const produtosFiltrados = this.state.produtos.filter((produto) => {
+
+        //     if(this.props.inputValorMinimo === '' && this.props.inputValorMaximo === '' && this.props.inputValorNome === ''){
+        //         return produto
+        //     }else if (this.props.inputValorMinimo !== '' && this.props.inputValorMaximo === '' && this.props.inputValorNome === ''){
+        //         return produto.value >= this.props.inputValorMinimo
+        //     }else if(this.props.inputValorMinimo !== '' && this.props.inputValorMaximo !== '' && this.props.inputValorNome === ''){
+        //         return produto.value >= this.props.inputValorMinimo && produto.value <= this.props.inputValorMaximo
+        //     }else if(this.props.inputValorMinimo !== '' && this.props.inputValorMaximo !== '' && this.props.inputValorNome !== ''){
+        //         return produto.value >= this.props.inputValorMinimo && produto.value <= this.props.inputValorMaximo && produto.name === this.props.inputValorNome
+        //     }else if(this.props.inputValorMinimo !== '' && this.props.inputValorMaximo === '' && this.props.inputValorNome !== ''){
+        //         return produto.value >= this.props.inputValorMinimo && produto.name === this.props.inputValorNome
+        //     }else if(this.props.inputValorMinimo === '' && this.props.inputValorMaximo !== '' && this.props.inputValorNome === ''){
+        //         return produto.value <= this.props.inputValorMaximo
+        //     }else if(this.props.inputValorMinimo === '' && this.props.inputValorMaximo !== '' && this.props.inputValorNome !== ''){
+        //         return produto.value <= this.props.inputValorMaximo && produto.name === this.props.inputValorNome
+        //     }else if(this.props.inputValorMinimo === '' && this.props.inputValorMaximo === '' && this.props.inputValorNome !== ''){
+        //         return produto.name === this.props.inputValorNome
+        //     }
+        // })
+
+        const produtosFiltrados = this.state.produtos.filter((produto)=>{
+            if(this.props.inputValorMinimo === ''){
+                return true
+            }
+            return produto.value >= this.props.inputValorMinimo
+        }).filter((produto)=>{
+            if(this.props.inputValorMaximo === ''){
+                return true
+            }
+            return produto.value <= this.props.inputValorMaximo
+        }).filter((produto) => {
+            if(this.props.inputValorNome === ''){
+                return true
+            }
+            const nomeProduto = produto.name.toLowerCase().trim()
+            const nomeFiltro = this.props.inputValorNome.toLowerCase().trim()
+            return nomeProduto.indexOf(nomeFiltro) !== -1
         })
 
-        //fazer um array de produtos com filtro de valor minimo e maximo
-        //fazer um array de produtos com filtro de nome do produto
-        //fazer um array de produtos com map retornando crescente e decrescente
+        switch(this.state.ordenado){
+            case "crescente":
+                produtosFiltrados.sort(function(a,b){return a.value - b.value})
+                break;
+            case "crescente":
+                produtosFiltrados.sort(function(a,b){return b.value - a.value})
+                break;
+        }
 
         return<div>
             <p>Ordenação:</p>
-            <select>
-                <option>Crescente</option>
-                <option>Decrescente</option>
+            <select value ={this.state.ordenado} onChange={this.onChangeOrdenado}>
+                <option value="">Selecionar</option>
+                <option value="crescente">Crescente</option>
+                <option value="decrescente">Decrescente</option>
             </select>
-            <p>Quantidade de produtos: {this.state.produtos.length}</p>
+            <p>Quantidade de produtos: {produtosFiltrados.length}</p>
             <DivProdutos>
-                {produtos}
+                {
+                    produtosFiltrados.map((produto) => {
+                        return<DivArrayProdutos key={produto.id}>
+                        <img src={produto.imageUrl}/>
+                        <spam>{produto.name}</spam>
+                        <spam>R$ {produto.value}</spam>
+                        <button onClick={() => this.adicionarProduto(produto)}>Adicionar ao carrinho</button>
+                    </DivArrayProdutos>
+                    })
+                }
             </DivProdutos>  
         </div>
     }
