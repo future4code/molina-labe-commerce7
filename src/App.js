@@ -17,18 +17,38 @@ export default class App extends React.Component{
     dadosCarrinho: [] //deve retornar objetos com nome do produto, quantidade e valor unitario
   }
 
-  //fazer a logica do filtro aqui? e enviar como funcao?
+  onChangeValorMinimo = (event) => {
+    this.setState({inputValorMinimo: event.target.value})
+  }
+
+  onChangeValorMaximo = (event) => {
+    this.setState({inputValorMaximo: event.target.value})
+  }
+
+  onChangeValorNome = (event) => {
+    this.setState({inputValorNome: event.target.value})
+  }
+
+  onChangeCarrinho = (produto) => {
+    const produtosCarrinho = [produto, ...this.state.dadosCarrinho]
+    this.setState({dadosCarrinho: produtosCarrinho})
+  }
 
   render(){
+
       return <ConteinerGeral>
         <Filtro inputValorMinimo={this.state.inputValorMinimo}
         inputValorMaximo={this.state.inputValorMaximo}
         inputValorNome={this.state.inputValorNome}
+        onChangeValorMinimo={this.onChangeValorMinimo}
+        onChangeValorMaximo ={this.onChangeValorMaximo}
+        onChangeValorNome = {this.onChangeValorNome}
         />
         <Home inputValorMinimo={this.state.inputValorMinimo}
         inputValorMaximo={this.state.inputValorMaximo}
         inputValorNome={this.state.inputValorNome}
         dadosCarrinho = {this.state.dadosCarrinho}
+        onChangeCarrinho = {this.onChangeCarrinho}
         />
         <Carrinho dadosCarrinho = {this.state.dadosCarrinho}
         />

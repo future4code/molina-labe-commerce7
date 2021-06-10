@@ -1,6 +1,9 @@
 import React from 'react'
 
 export class Carrinho extends React.Component{
+
+    
+
     render(){
         return <div>
             <h3>Carrinho</h3>
