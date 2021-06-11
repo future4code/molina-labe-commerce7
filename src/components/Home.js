@@ -22,6 +22,7 @@ export class Home extends React.Component{
             name: "Foguete da Missão Apollo 11",
             value: 10000.0,
             imageUrl: "https://picsum.photos/200/200",
+            quantidade: 1
         },
 
         {
@@ -29,6 +30,7 @@ export class Home extends React.Component{
             name: "Foguete",
             value: 5000.0,
             imageUrl: "https://picsum.photos/202/202",
+            quantidade: 1
         },
 
         {
@@ -36,6 +38,7 @@ export class Home extends React.Component{
             name: "Montanha",
             value: 200.0,
             imageUrl: "https://picsum.photos/203/203",
+            quantidade: 1
         },
 
         {
@@ -43,6 +46,7 @@ export class Home extends React.Component{
             name: "Casa",
             value: 50.0,
             imageUrl: "https://picsum.photos/204/204",
+            quantidade: 1
         }
         ],
         ordenado: ''
@@ -52,8 +56,8 @@ export class Home extends React.Component{
         this.setState({ordenado: event.target.value})
     }
 
-    adicionarProduto = (produto) => {
-        this.props.onChangeCarrinho(produto)
+    adicionarProduto = (idProduto, listaDeProdutos) => {
+        this.props.onChangeCarrinho(idProduto, listaDeProdutos)
     }
 
     adicionarCarrinho = (id) => {
@@ -65,26 +69,6 @@ export class Home extends React.Component{
 
     render(){
 
-        // const produtosFiltrados = this.state.produtos.filter((produto) => {
-
-        //     if(this.props.inputValorMinimo === '' && this.props.inputValorMaximo === '' && this.props.inputValorNome === ''){
-        //         return produto
-        //     }else if (this.props.inputValorMinimo !== '' && this.props.inputValorMaximo === '' && this.props.inputValorNome === ''){
-        //         return produto.value >= this.props.inputValorMinimo
-        //     }else if(this.props.inputValorMinimo !== '' && this.props.inputValorMaximo !== '' && this.props.inputValorNome === ''){
-        //         return produto.value >= this.props.inputValorMinimo && produto.value <= this.props.inputValorMaximo
-        //     }else if(this.props.inputValorMinimo !== '' && this.props.inputValorMaximo !== '' && this.props.inputValorNome !== ''){
-        //         return produto.value >= this.props.inputValorMinimo && produto.value <= this.props.inputValorMaximo && produto.name === this.props.inputValorNome
-        //     }else if(this.props.inputValorMinimo !== '' && this.props.inputValorMaximo === '' && this.props.inputValorNome !== ''){
-        //         return produto.value >= this.props.inputValorMinimo && produto.name === this.props.inputValorNome
-        //     }else if(this.props.inputValorMinimo === '' && this.props.inputValorMaximo !== '' && this.props.inputValorNome === ''){
-        //         return produto.value <= this.props.inputValorMaximo
-        //     }else if(this.props.inputValorMinimo === '' && this.props.inputValorMaximo !== '' && this.props.inputValorNome !== ''){
-        //         return produto.value <= this.props.inputValorMaximo && produto.name === this.props.inputValorNome
-        //     }else if(this.props.inputValorMinimo === '' && this.props.inputValorMaximo === '' && this.props.inputValorNome !== ''){
-        //         return produto.name === this.props.inputValorNome
-        //     }
-        // })
 
         const produtosFiltrados = this.state.produtos.filter((produto)=>{
             if(this.props.inputValorMinimo === ''){
@@ -109,7 +93,7 @@ export class Home extends React.Component{
             case "crescente":
                 produtosFiltrados.sort(function(a,b){return a.value - b.value})
                 break;
-            case "crescente":
+            case "decrescente":
                 produtosFiltrados.sort(function(a,b){return b.value - a.value})
                 break;
         }
@@ -129,7 +113,7 @@ export class Home extends React.Component{
                         <img src={produto.imageUrl}/>
                         <spam>{produto.name}</spam>
                         <spam>R$ {produto.value}</spam>
-                        <button onClick={() => this.adicionarProduto(produto)}>Adicionar ao carrinho</button>
+                        <button onClick={() => this.adicionarProduto(produto.id, this.state.produtos)}>Adicionar ao carrinho</button>
                     </DivArrayProdutos>
                     })
                 }
