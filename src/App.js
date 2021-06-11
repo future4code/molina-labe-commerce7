@@ -14,7 +14,7 @@ export default class App extends React.Component{
     inputValorMinimo: '',
     inputValorMaximo: '',
     inputValorNome:'',
-    dadosCarrinho: [] //deve retornar objetos com nome do produto, quantidade e valor unitario
+    dadosCarrinho: []
   }
 
   onChangeValorMinimo = (event) => {
@@ -29,9 +29,28 @@ export default class App extends React.Component{
     this.setState({inputValorNome: event.target.value})
   }
 
-  onChangeCarrinho = (produto) => {
-    const produtosCarrinho = [produto, ...this.state.dadosCarrinho]
-    this.setState({dadosCarrinho: produtosCarrinho})
+  adicionarPridutoIdDiferente = () => {
+
+  }
+
+  onChangeCarrinho = (idProduto, listaDeProdutos) => {
+
+    const temProdutoNocarrinho = this.state.dadosCarrinho.find((item) => idProduto === item.id)
+    if(temProdutoNocarrinho){
+      const produtosCarrinho = this.state.dadosCarrinho.map((produtoNoCarrinho) => {
+        if(idProduto === produtoNoCarrinho.id){
+          return {...produtoNoCarrinho, quantidade: produtoNoCarrinho.quantidade + 1}
+        }
+          return produtoNoCarrinho
+        })
+        this.setState({dadosCarrinho: produtosCarrinho})
+    }else{
+
+      const produtoParaAdicionar = listaDeProdutos.find((item) => idProduto === item.id)
+
+      const produtosCarrinho = [...this.state.dadosCarrinho,{...produtoParaAdicionar, quantidade: 1}]
+      this.setState({dadosCarrinho: produtosCarrinho})
+    }
   }
 
   render(){
