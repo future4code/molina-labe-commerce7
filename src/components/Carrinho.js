@@ -11,8 +11,8 @@ export class Carrinho extends React.Component{
             const preco = itemNoCarrinho.value
             const quantidade = itemNoCarrinho.quantidade
             soma = soma + preco*quantidade
-        }
-
+        
+      
         console.log(soma)
 
         const imprimirCompras = this.props.dadosCarrinho.map((produto) => {
