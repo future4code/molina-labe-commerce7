@@ -1,4 +1,5 @@
 import React from 'react'
+import { useImperativeHandle } from 'react'
 import styled from 'styled-components'
 
 const DivProdutos = styled.div`
@@ -8,7 +9,7 @@ const DivProdutos = styled.div`
 `
 const DivArrayProdutos = styled.div`
     display: flex;
-    align-itens: center;
+    align-items: center;
     flex-direction: column;
 `
 
@@ -53,6 +54,13 @@ export class Home extends React.Component{
 
     adicionarProduto = (produto) => {
         this.props.onChangeCarrinho(produto)
+    }
+
+    adicionarCarrinho = (id) => {
+        const ProdutoNoCarrinho = this.state.carrinho.find((produto) => {
+            return produto.id === id
+        })
+  
     }
 
     render(){
