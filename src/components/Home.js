@@ -1,4 +1,5 @@
 import React from 'react'
+import { useImperativeHandle } from 'react'
 import styled from 'styled-components'
 
 const DivProdutos = styled.div`
@@ -8,8 +9,16 @@ const DivProdutos = styled.div`
 `
 const DivArrayProdutos = styled.div`
     display: flex;
-    align-itens: center;
+    align-items: center;
     flex-direction: column;
+`
+
+const BotaoAdicionar = styled.button`
+    padding: 5px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
 `
 
 export class Home extends React.Component{
@@ -67,7 +76,7 @@ export class Home extends React.Component{
                 return true
             }
             return produto.value >= this.props.inputValorMinimo
-        }).filter((produto)=>{
+        }).filter((produto) => {
             if(this.props.inputValorMaximo === ''){
                 return true
             }
@@ -105,8 +114,8 @@ export class Home extends React.Component{
                         return<DivArrayProdutos key={produto.id}>
                         <img src={produto.imageUrl}/>
                         <spam>{produto.name}</spam>
-                        <spam>R$ {produto.value}</spam>
-                        <button onClick={() => this.adicionarProduto(produto.id, this.state.produtos)}>Adicionar ao carrinho</button>
+                        <spam>R$ {produto.value.toFixed(2)}</spam>
+                        <BotaoAdicionar onClick={() => this.adicionarProduto(produto.id, this.state.produtos)}>Adicionar ao carrinho</BotaoAdicionar>
                     </DivArrayProdutos>
                     })
                 }

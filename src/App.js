@@ -10,12 +10,24 @@ const ConteinerGeral = styled.div`
 `
 export default class App extends React.Component{
 
-  state={
+  state = {
     inputValorMinimo: '',
     inputValorMaximo: '',
     inputValorNome:'',
     dadosCarrinho: []
   }
+
+  componentDidUpdate() {
+    localStorage.setItem('carrinho', JSON.stringify(this.state.dadosCarrinho))
+  };
+
+  componentDidMount() {
+    const produtosSalvos = localStorage.getItem('carrinho') 
+    const arrayProdutos = JSON.parse(produtosSalvos)
+    if(arrayProdutos) {
+      this.setState({dadosCarrinho: arrayProdutos})
+    }
+  };
 
   onChangeValorMinimo = (event) => {
     this.setState({inputValorMinimo: event.target.value})
@@ -29,10 +41,6 @@ export default class App extends React.Component{
     this.setState({inputValorNome: event.target.value})
   }
 
-  adicionarPridutoIdDiferente = () => {
-
-  }
-
   onChangeCarrinho = (idProduto, listaDeProdutos) => {
 
     const temProdutoNocarrinho = this.state.dadosCarrinho.find((item) => idProduto === item.id)
@@ -44,7 +52,8 @@ export default class App extends React.Component{
           return produtoNoCarrinho
         })
         this.setState({dadosCarrinho: produtosCarrinho})
-    }else{
+
+    } else {
 
       const produtoParaAdicionar = listaDeProdutos.find((item) => idProduto === item.id)
 
@@ -63,6 +72,7 @@ export default class App extends React.Component{
           };
         }
         return produtoNoCarrinho;
+
       })
       .filter((produtoNoCarrinho) => {
         return produtoNoCarrinho.quantidade > 0;
@@ -70,9 +80,11 @@ export default class App extends React.Component{
       this.setState({ dadosCarrinho: novosProdutosCarrinho });
   };
 
-  render(){
 
-      return <ConteinerGeral>
+  render() {
+
+      return (
+       <ConteinerGeral>
         <Filtro inputValorMinimo={this.state.inputValorMinimo}
         inputValorMaximo={this.state.inputValorMaximo}
         inputValorNome={this.state.inputValorNome}
@@ -86,9 +98,11 @@ export default class App extends React.Component{
         dadosCarrinho = {this.state.dadosCarrinho}
         onChangeCarrinho = {this.onChangeCarrinho}
         />
-        <Carrinho dadosCarrinho = {this.state.dadosCarrinho}
+        <Carrinho 
+        dadosCarrinho = {this.state.dadosCarrinho}
         removerDoCarrinho = {this.removerDoCarrinho}
         />
-      </ConteinerGeral>
+       </ConteinerGeral>
+    );
   }
 }
