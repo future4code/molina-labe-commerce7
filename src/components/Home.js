@@ -88,6 +88,7 @@ export class Home extends React.Component{
             case "decrescente":
                 produtosFiltrados.sort(function(a,b){return b.value - a.value})
                 break;
+            default:
         }
 
         return<div>
