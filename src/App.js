@@ -1,26 +1,94 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import {Filtro} from './components/Filtro.js'
+import {Home} from './components/Home.js'
+import {Carrinho} from './components/Carrinho.js'
+import styled from 'styled-components'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const ConteinerGeral = styled.div`
+  display: grid;
+  grid-template-columns: 20vw 1fr 20vw
+`
+export default class App extends React.Component{
+
+  state={
+    inputValorMinimo: '',
+    inputValorMaximo: '',
+    inputValorNome:'',
+    dadosCarrinho: []
+  }
+
+  onChangeValorMinimo = (event) => {
+    this.setState({inputValorMinimo: event.target.value})
+  }
+
+  onChangeValorMaximo = (event) => {
+    this.setState({inputValorMaximo: event.target.value})
+  }
+
+  onChangeValorNome = (event) => {
+    this.setState({inputValorNome: event.target.value})
+  }
+
+  adicionarPridutoIdDiferente = () => {
+
+  }
+
+  onChangeCarrinho = (idProduto, listaDeProdutos) => {
+
+    const temProdutoNocarrinho = this.state.dadosCarrinho.find((item) => idProduto === item.id)
+    if(temProdutoNocarrinho){
+      const produtosCarrinho = this.state.dadosCarrinho.map((produtoNoCarrinho) => {
+        if(idProduto === produtoNoCarrinho.id){
+          return {...produtoNoCarrinho, quantidade: produtoNoCarrinho.quantidade + 1}
+        }
+          return produtoNoCarrinho
+        })
+        this.setState({dadosCarrinho: produtosCarrinho})
+    }else{
+
+      const produtoParaAdicionar = listaDeProdutos.find((item) => idProduto === item.id)
+
+      const produtosCarrinho = [...this.state.dadosCarrinho,{...produtoParaAdicionar, quantidade: 1}]
+      this.setState({dadosCarrinho: produtosCarrinho})
+    }
+  }
+
+  removerDoCarrinho = (idProduto) => {
+    const novosProdutosCarrinho = this.state.dadosCarrinho
+      .map((produtoNoCarrinho) => {
+        if(produtoNoCarrinho.id === idProduto) {
+          return {
+            ...produtoNoCarrinho,
+            quantidade: produtoNoCarrinho.quantidade - 1
+          };
+        }
+        return produtoNoCarrinho;
+      })
+      .filter((produtoNoCarrinho) => {
+        return produtoNoCarrinho.quantidade > 0;
+      })
+      this.setState({ dadosCarrinho: novosProdutosCarrinho });
+  };
+
+  render(){
+
+      return <ConteinerGeral>
+        <Filtro inputValorMinimo={this.state.inputValorMinimo}
+        inputValorMaximo={this.state.inputValorMaximo}
+        inputValorNome={this.state.inputValorNome}
+        onChangeValorMinimo={this.onChangeValorMinimo}
+        onChangeValorMaximo ={this.onChangeValorMaximo}
+        onChangeValorNome = {this.onChangeValorNome}
+        />
+        <Home inputValorMinimo={this.state.inputValorMinimo}
+        inputValorMaximo={this.state.inputValorMaximo}
+        inputValorNome={this.state.inputValorNome}
+        dadosCarrinho = {this.state.dadosCarrinho}
+        onChangeCarrinho = {this.onChangeCarrinho}
+        />
+        <Carrinho dadosCarrinho = {this.state.dadosCarrinho}
+        removerDoCarrinho = {this.removerDoCarrinho}
+        />
+      </ConteinerGeral>
+  }
 }
-
-export default App;
