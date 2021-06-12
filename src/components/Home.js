@@ -75,7 +75,7 @@ export class Home extends React.Component{
                 return true
             }
             return produto.value >= this.props.inputValorMinimo
-        }).filter((produto)=>{
+        }).filter((produto) => {
             if(this.props.inputValorMaximo === ''){
                 return true
             }
