@@ -30,7 +30,7 @@ export class Carrinho extends React.Component{
 
             {imprimirCompras}
 
-            <p>Valor Total: R$ {soma}</p>
+            <p>Valor Total: R$ {soma}</p>    
         </div>
     }
 }
