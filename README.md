@@ -1,1 +1,1 @@
-lojaespacial.surge.sh
+https://lojagalaxia.surge.sh/
