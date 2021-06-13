@@ -1,17 +1,17 @@
 import React from 'react'
-import { useImperativeHandle } from 'react'
 import styled from 'styled-components'
 
 const DivProdutos = styled.div`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 16px;
-    justify-content: end;
+    flex-wrap: wrap;
 `
 const DivArrayProdutos = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
+    align-self: end;
 `
 
 const BotaoAdicionar = styled.button`
@@ -191,6 +191,7 @@ export class Home extends React.Component{
                 <option value="decrescente">Decrescente</option>
             </select>
             <p>Quantidade de produtos: {produtosFiltrados.length}</p>
+
             <DivProdutos>
                 {
                     produtosFiltrados.map((produto) => {

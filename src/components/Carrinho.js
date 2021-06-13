@@ -15,6 +15,10 @@ const BotaoRemover = styled.button`
     font-weight: bold;
 `
 
+const IconeCarrinho = styled.img`
+    width: 8%
+`
+
 export class Carrinho extends React.Component{
 
 
@@ -25,7 +29,9 @@ export class Carrinho extends React.Component{
     
     render(){
         
-        let soma = 0 
+        let soma = 0
+
+        let somaQuantidade = 0
 
         for(let i= 0; i < this.props.dadosCarrinho.length; i++){
             const itemNoCarrinho = this.props.dadosCarrinho[i]
@@ -44,7 +50,9 @@ export class Carrinho extends React.Component{
         })
         
         return <div>
-            <h3>Carrinho</h3>
+            <div>Carrinho <IconeCarrinho src="https://image.flaticon.com/icons/png/512/25/25619.png"
+            alt = "icone carrinho"
+            /> {somaQuantidade > 0 ? {somaQuantidade} : ""}</div>
 
             {imprimirCompras}
 
