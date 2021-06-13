@@ -7,6 +7,13 @@ const ContainerProdutos = styled.div`
     justify-content: space-between;
     margin: 10px 10px 10px 0px;
 `
+const BotaoRemover = styled.button`
+    padding: 5px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+`
 
 export class Carrinho extends React.Component{
 
@@ -32,7 +39,7 @@ export class Carrinho extends React.Component{
         const imprimirCompras = this.props.dadosCarrinho.map((produto) => {
             return<ContainerProdutos key={produto.id}>
                 <spam> {produto.quantidade} x {produto.name}</spam>
-                <button onClick={() => this.onClick(produto.id)}>Remover</button>
+                <BotaoRemover onClick={() => this.onClick(produto.id)}>Remover</BotaoRemover>
             </ContainerProdutos>
         })
         
